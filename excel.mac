@@ -1,0 +1,120 @@
+[PCOMM SCRIPT HEADER]
+LANGUAGE=VBSCRIPT
+[PCOMM SCRIPT SOURCE]
+autECLSession.SetConnectionByName(ThisSessionName)
+Dim excel
+Dim row
+Dim inputFilename 
+Dim objWorkbook
+
+inputFilename = "C:\Users\brian.durham\disabled.xls"
+
+Set excel = CreateObject("Excel.Application")
+Set objWorkbook = excel.Workbooks.Open(inputFilename)
+excel.visible = true 'If you want to
+
+row = 552 'Start at row 2 of your excel sheet
+
+'Loop until AS400 has blocked input (error in most cases) or there are no values in column A of excel sheet left
+'while autECLSession.autECLOIA.InputInhibited = 0 AND excel.Cells(row,1).Value <> "" 
+while excel.Cells(row,2).Value <> "" 
+
+   '### YOUR MACRO STARTS HERE
+   'autECLSession.autECLOIA.WaitForAppAvailable
+'
+'   autECLSession.autECLOIA.WaitForInputReady
+'   autECLSession.autECLPS.SendKeys excel.Cells(row,2).Value 'Value of column B / current row from excel sheet
+'   autECLSession.autECLOIA.WaitForInputReady
+'   autECLSession.autECLPS.SendKeys "[enter]"'''
+'
+'   autECLSession.autECLPS.WaitForAttrib 5,28,"00","3c",3,10000'
+'
+'   autECLSession.autECLPS.WaitForCursor 5,29,10000
+
+   ' ...
+
+   '### YOUR MACRO ENDS HERE
+   
+   '''''''''''''''''''''''''''''''''''''''''''''''''''
+   autECLSession.autECLOIA.WaitForAppAvailable
+   
+   autECLSession.autECLOIA.WaitForInputReady
+   autECLSession.autECLPS.SendKeys "lstcmuser"
+   autECLSession.autECLOIA.WaitForInputReady
+   autECLSession.autECLPS.SendKeys "[pf4]"
+   
+   autECLSession.autECLPS.WaitForAttrib 5,36,"10","3c",3,10000
+
+   autECLSession.autECLPS.WaitForCursor 5,37,10000
+
+   autECLSession.autECLOIA.WaitForAppAvailable
+   
+   autECLSession.autECLOIA.WaitForInputReady
+   autECLSession.autECLPS.SendKeys excel.Cells(row,2).Value 'Value of column B / current row from excel sheet
+   autECLSession.autECLOIA.WaitForInputReady
+   autECLSession.autECLPS.SendKeys "[tab]"
+   autECLSession.autECLOIA.WaitForInputReady
+   autECLSession.autECLPS.SendKeys "unynnn"
+   autECLSession.autECLOIA.WaitForInputReady
+   autECLSession.autECLPS.SendKeys "[enter]"
+   
+   autECLSession.autECLPS.WaitForAttrib 5,36,"10","3c",3,10000
+
+   autECLSession.autECLPS.Wait 1359 
+
+   autECLSession.autECLOIA.WaitForAppAvailable
+   
+   autECLSession.autECLOIA.WaitForInputReady
+   autECLSession.autECLPS.SendKeys "[enter]"
+   
+   autECLSession.autECLPS.WaitForAttrib 7,1,"10","3c",3,10000
+
+   autECLSession.autECLPS.WaitForCursor 7,2,10000
+
+   autECLSession.autECLOIA.WaitForAppAvailable
+   
+   autECLSession.autECLOIA.WaitForInputReady
+   autECLSession.autECLPS.SendKeys "u"
+   autECLSession.autECLOIA.WaitForInputReady
+   autECLSession.autECLPS.SendKeys "[enter]"
+   
+   autECLSession.autECLPS.WaitForAttrib 3,15,"10","3c",3,10000
+
+   autECLSession.autECLPS.WaitForCursor 3,16,10000
+
+   autECLSession.autECLOIA.WaitForAppAvailable
+   
+   autECLSession.autECLOIA.WaitForInputReady
+   autECLSession.autECLPS.SendKeys "[tab]"
+   autECLSession.autECLOIA.WaitForInputReady
+   autECLSession.autECLPS.SendKeys "[tab]"
+   autECLSession.autECLOIA.WaitForInputReady
+   autECLSession.autECLPS.SendKeys "*disabled"
+   autECLSession.autECLOIA.WaitForInputReady
+   autECLSession.autECLPS.SendKeys "[enter]"
+   
+   autECLSession.autECLPS.WaitForAttrib 3,15,"10","3c",3,10000
+
+   autECLSession.autECLPS.Wait 1890 
+
+   autECLSession.autECLOIA.WaitForAppAvailable
+   
+   autECLSession.autECLOIA.WaitForInputReady
+   autECLSession.autECLPS.SendKeys "[pf23]"
+   
+   autECLSession.autECLPS.WaitForAttrib 3,15,"10","3c",3,10000
+
+   autECLSession.autECLPS.Wait 3969 
+
+   autECLSession.autECLOIA.WaitForAppAvailable
+   
+      
+   autECLSession.autECLOIA.WaitForInputReady
+   autECLSession.autECLPS.SendKeys "[pf3]"
+   '''''''''''''''''''''''''''''''''''''''''''''''''''
+
+   row = row - 1
+wend
+
+excel.Quit
+Set excel = Nothing
